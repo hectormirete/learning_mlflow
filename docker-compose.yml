@@ -25,7 +25,7 @@ services:
 #            - backend
         env_file:
           - .env
-        command: mlflow server --backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --host 0.0.0.0 --default-artifact-root file:/usr/local/mlflow/mlflowserver_default_artifact_root
+        command: mlflow server --backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --host 0.0.0.0 --default-artifact-root s3://${ARTIFACT_BUCKET}
         volumes:
         - mlflow_artifacts:/usr/local/mlflow/mlflowserver_default_artifact_root
 #    nginx:
