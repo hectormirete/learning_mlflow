@@ -1,0 +1,51 @@
+#source: https://towardsdatascience.com/deploy-mlflow-with-docker-compose-8059f16b6039
+version: '3.7'
+services:
+    db:
+        restart: always
+        image: mysql/mysql-server:5.7.28
+        container_name: mlflow_db
+        expose:
+            - "3306"
+#        networks:
+#            - backend
+        env_file:
+            .env
+        volumes:
+            - dbdata:/var/lib/mysql
+    web:
+        restart: always
+        build: ./mlflow
+        image: mlflow
+        container_name: mlflow_server
+        ports:
+            - "5000:5000"
+#        networks:
+#            - frontend
+#            - backend
+        env_file:
+          - .env
+        command: mlflow server --backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --host 0.0.0.0 --default-artifact-root file:/usr/local/mlflow/mlflowserver_default_artifact_root
+        volumes:
+        - mlflow_artifacts:/usr/local/mlflow/mlflowserver_default_artifact_root
+#    nginx:
+#        restart: always
+#        build: ./nginx
+#        image: mlflow_nginx
+#        container_name: mlflow_nginx
+#        ports:
+#            - "80:80"
+#        networks:
+#            - frontend
+#        depends_on:
+#            - web
+#
+#networks:
+#    frontend:
+#        driver: bridge
+#    backend:
+#        driver: bridge
+
+volumes:
+    dbdata:
+    mlflow_artifacts:
