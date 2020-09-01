@@ -17,8 +17,6 @@ import logging
 
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
-mlflow.set_registry_uri('http://0.0.0.0:5000')
-mlflow.set_tracking_uri('http://0.0.0.0:5000')
 mlflow.set_experiment('wine_quality_model_experiment')
 
 def eval_metrics(actual, pred):

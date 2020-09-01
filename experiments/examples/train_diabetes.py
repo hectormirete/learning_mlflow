@@ -45,8 +45,6 @@ data = pd.DataFrame(d, columns=cols)
 # Import mlflow
 import mlflow
 import mlflow.sklearn
-mlflow.set_registry_uri('http://0.0.0.0:5000')
-mlflow.set_tracking_uri('http://0.0.0.0:5000')
 mlflow.set_experiment('diabetes_detection')
 
 # Evaluate metrics
